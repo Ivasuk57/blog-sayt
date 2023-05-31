@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Мій блог</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    .content {
+      display: none;
+    }
+  </style>
+  <script>
+    var activeContentId = '';
+    var posts = []; // Масив для зберігання дописів
+
+    function showContent(contentId) {
+      var content = document.getElementById(contentId);
+      var activeContent = document.getElementById(activeContentId);
+
+      if (activeContent) {
+        activeContent.style.display = 'none';
+      }
+
+      if (activeContentId !== contentId) {
+        content.style.display = 'block';
+        activeContentId = contentId;
+      } else {
+        if (contentId === 'social-media') {
+          content.style.display = 'block';
+          activeContentId = contentId;
+        } else {
+          var contactsContent = document.getElementById('contacts');
+          contactsContent.style.display = 'block';
+          activeContentId = 'contacts';
+        }
+      }
+    }
+
+    function addPost() {
+      var postText = document.getElementById('post-text').value;
+      var postImage = document.getElementById('post-image').files[0]; // Отримання файлу з обраного елемента
+
+      var reader = new FileReader(); // Об'єкт для читання файлу
+
+      reader.onload = function(event) {
+        var postImageSrc = event.target.result; // Отримуємо шлях до файлу (base64)
+
+        var post = {
+          text: postText,
+          imageSrc: postImageSrc
+        };
+
+        posts.push(post); // Додаємо допис у масив
+
+        var postsContainer = document.getElementById('posts-container');
+
+        var newPost = document.createElement('div');
+        newPost.classList.add('post');
+
+        var postImageElement = document.createElement('img');
+        postImageElement.src = postImageSrc;
+        postImageElement.alt = 'Фото';
+
+        var postTextElement = document.createElement('p');
+        postTextElement.innerText = postText;
+
+        newPost.appendChild(postImageElement);
+        newPost.appendChild(postTextElement);
+        postsContainer.appendChild(newPost);
+
+        // Очищення полів вводу
+        document.getElementById('post-text').value = '';
+        document.getElementById('post-image').value = '';
+      };
+
+      reader.readAsDataURL(postImage); // Читаємо файл у форматі base64
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Ivan Polulikh blog😍👇</h1>
+    <nav>
+      <ul>
+        <li><button onclick="showContent('home')">Головна</button></li>
+        <li><button onclick="showContent('about')">Про мене</button></li>
+        <li><button onclick="showContent('contacts')">Контакти</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div id="home" class="content">
+      <h2>Головна</h2>
+      <div id="posts-container"></div>
+      <h3>Додати допис:</h3>
+      <form>
+        <label for="post-image" id="post-image-label">
+          Виберіть файл
+          <input type="file" id="post-image" name="post-image" onchange="document.getElementById('file-upload-label').innerText = this.files[0].name;">
+        </label>
+        <span id="file-upload-label">Фото не обрано</span>        
+        <label for="post-text">Текст:</label>
+        <textarea id="post-text" name="post-text" rows="4" cols="50" placeholder="Введіть опис до фото"></textarea>
+        <br>
+        <button type="button" onclick="addPost()">Додати допис</button>
+      </form>
+    </div>
+
+    <div id="about" class="content">
+      <h2>Про мене</h2>
+      <p>Вітаю! Мене звати Іван Полуліх і я є автором цього блогу. Я захоплююсь технологіями, програмуванням і розробкою веб-сайтів. В моєму блозі я буду ділитись своїми знаннями, досвідом і цікавими матеріалами. Приєднуйтесь до мене і відкривайте світ веб-розробки разом зі мною!</p>
+      <img src="{{ url_for('static', filename='images/photo_2023-05-18_16-47-52.jpg') }}" alt="Моє фото" width="300" height="450">
+    </div>
+
+    <div id="contacts" class="content">
+      <h2>Контакти</h2>
+      <ul>
+        <li><a href="https://t.me/c/1177116567/265">Telegram</a></li>
+        <li><a href="#" onclick="showContent('social-media')">Соціальні медіа</a></li>
+        <li><a href="#" onclick="showContent('feedback')">Оцінки та відгуки</a></li>
+        <li><a href="mailto:ivanpolulikh410@gmail.com">Зв'яжіться зі мною</a></li>
+      </ul>
+    </div>
+
+    <div id="feedback" class="content">
+      <h2>Оцінки та відгуки</h2>
+      <form>
+        <label for="rating">Оцінка:</label>
+        <select id="rating" name="rating">
+          <option value="5">5 (відмінно)</option>
+          <option value="4">4 (добре)</option>
+          <option value="3">3 (задовільно)</option>
+          <option value="2">2 (погано)</option>
+          <option value="1">1 (жахливо)</option>
+        </select>
+        <br>
+        <label for="review">Відгук:</label>
+        <textarea id="review" name="review" rows="4" cols="50"></textarea>
+        <br>
+        <input type="submit" value="Відправити">
+      </form>
+    </div>
+
+    <div id="social-media" class="content">
+      <h2>Соціальні медіа</h2>
+      <ul>
+        <li><a href="https://instagram.com/ivan._.polulikh?igshid=MzRlODBiNWFlZA==" target="_blank">Instagram</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=100023857232729" target="_blank">Facebook</a></li>
+        <li><a href="https://www.linkedin.com/in/ivan-polulikh-39a33925b" target="_blank">LinkedIn</a></li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2023 Мій блог. Усі права захищені.</p>
+  </footer>
+</body>
+</html>
