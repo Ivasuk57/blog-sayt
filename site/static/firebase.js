@@ -1,12 +1,7 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js";
 import { getStorage, ref, getDownloadURL  } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyCwWDHR_slMwNHj0dRuzOX9I65YLVWRUwk",
     authDomain: "my-blog-b6503.firebaseapp.com",
@@ -17,11 +12,9 @@ const firebaseConfig = {
     measurementId: "G-95GHM0K3BS"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-// Initialize Cloud Storage and get a reference to the service
 const storage = getStorage(app);
 const image = ref(storage, "posts/1/200116400592_504448.jpg")
 
@@ -43,10 +36,8 @@ getDownloadURL(image)
         newPost.appendChild(postTextElement);
         postsContainer.appendChild(newPost);
 
-        // Очищення полів вводу
         document.getElementById('post-text').value = '';
         document.getElementById('post-image').value = '';
   })
   .catch((error) => {
-    // Handle any errors
   });

@@ -10,7 +10,7 @@
   </style>
   <script>
     var activeContentId = '';
-    var posts = []; // Масив для зберігання дописів
+    var posts = []; 
 
     function showContent(contentId) {
       var content = document.getElementById(contentId);
@@ -37,19 +37,19 @@
 
     function addPost() {
       var postText = document.getElementById('post-text').value;
-      var postImage = document.getElementById('post-image').files[0]; // Отримання файлу з обраного елемента
+      var postImage = document.getElementById('post-image').files[0];
 
-      var reader = new FileReader(); // Об'єкт для читання файлу
+      var reader = new FileReader(); 
 
       reader.onload = function(event) {
-        var postImageSrc = event.target.result; // Отримуємо шлях до файлу (base64)
+        var postImageSrc = event.target.result;
 
         var post = {
           text: postText,
           imageSrc: postImageSrc
         };
 
-        posts.push(post); // Додаємо допис у масив
+        posts.push(post); 
 
         var postsContainer = document.getElementById('posts-container');
 
@@ -72,13 +72,16 @@
         document.getElementById('post-image').value = '';
       };
 
-      reader.readAsDataURL(postImage); // Читаємо файл у форматі base64
+      reader.readAsDataURL(postImage); 
     }
   </script>
 </head>
 <body>
   <header>
-    <h1>Ivan Polulikh blog😍👇</h1>
+    <a href="/">
+      <img src="{{ url_for('static', filename='images/1995204.jpg') }}" alt="Моє фото" width="150" height="200">
+  </a>  
+  <h1><a href="/" style="color: rgb(255, 238, 238);">Ivan Polulikh blog😍👇</a></h1>
     <nav>
       <ul>
         <li><button onclick="showContent('home')">Головна</button></li>
